@@ -1,15 +1,15 @@
 #include<bits/stdc++.h> 
 using namespace std; 
 
-// This function generates the key in a cyclic manner until its length isnt equal to the length of original text 
-string generateKey(string str, string key){ 
-  int x = str.size(); 
+// this function makes the key the same size as the message 
+string generateKey(string message, string key){ 
+  int x = message.size(); 
 
   for (int i = 0; ; i++){ 
     if (x == i){ 
       i = 0;
     }
-    if (key.size() == str.size()){ 
+    if (key.size() == message.size()){ was
       break;
     }
   key.push_back(key[i]); 
@@ -19,16 +19,18 @@ string generateKey(string str, string key){
   return key; 
 } 
 
-// This function returns the encrypted text generated with the help of the key 
-string Encrypt(string str, string key){ 
+// This function returns the encrypted text
+//this function will only work when message and key are of same length
+string Encrypt(string message, string key){ 
   string cipher_text; 
 
-  for (int i = 0; i < str.size(); i++){ 
-    // converting in range 0-25 
-    int x = (str[i] + key[i]) %26; 
-    // convert into alphabets(ASCII) 
+  for (int i = 0; i < message.size(); i++){ 
+    // run the message/key through the Vignere cypher
+    int x = (message[i] + key[i]) %26; 
+    // convert into alphabet using ASCII
+    //in ASCII, letters are represented by 65-90 and 97-122
     x += 'A'; 
-    cipher_text.push_back(x); 
+    cipher_text.push_back(x); //create the cipher_text
   } 
   return cipher_text; 
 } 
@@ -37,11 +39,12 @@ string Encrypt(string str, string key){
 string Decrypt(string cipher_text, string key){ 
   string orig_text; 
   for (int i = 0 ; i < cipher_text.size(); i++){ 
-    // converting in range 0-25 
+    // reversing the Vignere Cypher to decrypt the key
     int x = (cipher_text[i] - key[i] + 26) %26; 
-    // convert into alphabets(ASCII) 
+    // convert into alphabet using ASCII
+    //in ASCII, letters are represented by 65-90 and 97-122
     x += 'A'; 
-    orig_text.push_back(x); 
+    orig_text.push_back(x); //recreate the original message 
   }
   return orig_text; 
 } 
